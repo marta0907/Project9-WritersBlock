@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Writer's Block</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+</head>
+<body style="background-image: url('/static/images/background.png')">
+    <div class="container-top">
+        <h1 class="title">Writer's Block</h1>
+        <hr>
+        <h3 class="subtitle">A page where you have to write, or you will lose all your work</h3>
+    </div>
+
+    <div>
+        <button class="btn" onclick="generateText()" >Generate your beginning</button>
+    </div>
+    <hr>
+    <div class="text-part">
+        <textarea id="writingArea" class="text-area" >{{ai_start}} </textarea>
+    </div>
+<script>
+    function generateText() {
+        fetch("/generate")
+            .then(response =>response.json())
+            .then(data => {
+                document.getElementById("writingArea").value = data.ai_start;
+                })
+            .catch(error => console.error("Error:", error));
+    }
+    let timeout;
+    document.getElementById("writingArea").addEventListener("input", function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            this.value =" ";
+        }, 10000);
+    });
+</script>
+
+</body>
+</html>
